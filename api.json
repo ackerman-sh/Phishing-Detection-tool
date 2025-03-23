@@ -1,0 +1,6 @@
+{
+    "Visit_GitHub": "https://github.com/settings/tokens",
+    "GITHUB_API_KEY": "your_github_fine-grained_api_key",
+    "Visit_VirusTotal": "https://www.virustotal.com/gui/my-apikey",
+    "VIRUSTOTAL_API_KEY": "your_virustotal_api_key"
+}

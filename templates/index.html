@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirusTotal Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Courier New", monospace;
+            background-color: #0d1117;
+            color: #00ff00;
+            margin: 0;
+            display: flex;
+            overflow-y: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #161b22;
+            min-height: 100vh;
+            padding: 30px;
+            box-shadow: 4px 4px 10px rgba(0, 255, 0, 0.6);
+            margin-top: 30px; 
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: none;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .sidebar button:hover {
+            background-color: #00ff00;
+            color: #0d1117;
+        }
+
+        .main {
+            flex-grow: 1;
+            padding: 20px;
+            position: relative;
+        }
+
+        .panel {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            background-color: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: #00ff00;
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0e6b0e;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            font-family: monospace;
+            padding: 15px;
+            color: #33ff33;
+            height: 50vh; 
+            max-width: 100%;
+            overflow-y: visible;
+            overflow-x: hidden;
+            font-size: 12px;
+            line-height: 1.4;
+            word-break: break-word;
+            border: 1px solid #00ff00;
+            background-color: #121212;
+            border-radius: 8px;
+        }
+
+        .chart-container {
+            position: absolute;
+            bottom: 100px;
+            left: 30%;
+            width: 500px;
+            height: 250px;
+            background-color: #161b22;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 255, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-container p {
+           margin-top: 10px;
+           font-size: 14px;
+           color: #00ff00;
+           text-align: center;
+        }       
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <button onclick="showPanel('url-scan-panel')">URL Scan</button>
+        <button onclick="showPanel('ai-report-panel')">AI Analysis</button>
+    </div>
+
+    <div class="main">
+        <div id="url-scan-panel" class="panel active">
+            <h2>[ VirusTotal URL Scan ]</h2>
+            <input id="url-input" placeholder="Enter URL..."></input>
+            <button onclick="scanURL()">Scan</button>
+            <pre id="scan-output">Results will appear here...</pre>
+        </div>
+
+        <div id="ai-report-panel" class="panel">
+            <h2>[ AI Report ]</h2>
+            <button onclick="getAIReport()">Generate Report</button>
+            <pre id="ai-output">AI analysis will appear here...</pre>
+        </div>
+
+        <!-- Chart at the top right -->
+        <div class="chart-container">
+            <canvas id="virusTotalChart"></canvas>
+            <p>Pie Chart</p>
+        </div>
+            
+        </div>
+    </div>
+
+    <script>
+        function showPanel(panelId) {
+            document.querySelectorAll(".panel").forEach(panel => panel.classList.remove("active"));
+            document.getElementById(panelId).classList.add("active");
+        }
+
+        function scanURL() {
+            let url = document.getElementById("url-input").value;
+            let outputDiv = document.getElementById("scan-output");
+            outputDiv.innerHTML = "Scanning URL...\n";
+            
+            fetch("/scan_url", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: url })
+            })
+            .then(response => response.json())
+            .then(data => {
+                outputDiv.innerHTML = JSON.stringify(data, null, 2);
+                updateChart(data);
+            })
+            .catch(error => {
+                outputDiv.innerHTML = `Error: ${error.message}`;
+            });
+        }
+
+        let virusTotalChart = null;
+
+ 
+        function updateChart(data = { malicious: 0, harmless: 0, suspicious: 0, undetected: 0 }) {
+            const ctx = document.getElementById("virusTotalChart").getContext("2d");
+        
+            if (virusTotalChart) {
+                virusTotalChart.destroy();
+            }
+        
+            virusTotalChart = new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: ["Malicious", "Harmless", "Suspicious", "Undetected"],
+                    datasets: [{
+                        data: [data.malicious, data.harmless, data.suspicious, data.undetected],
+                        backgroundColor: ["#ff0000", "#00ff00", "#ffa500", "#808080"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = function () {
+            updateChart();
+        };
+
+        function getAIReport() {
+            const aiOutput = document.getElementById("ai-output");
+            aiOutput.textContent = "Fetching AI analysis...\n";
+            aiOutput.setAttribute("style", `
+                        white-space: pre-wrap;
+                        word-wrap: break-word;
+                        max-width: 100%;
+                        font-size: 14px; 
+                        overflow-x: hidden; 
+                        font-family: monospace; 
+                        padding: 10px;
+                        line-height: 1.5;
+                    `);
+
+            fetch("/get_ai_report", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ scan_data: "Your scan results here" }) 
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("AI request failed.");
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                return reader.read().then(function processText({ done, value }) {
+                    if (done) return;
+                    aiOutput.textContent += decoder.decode(value);
+                    return reader.read().then(processText);
+                });
+            })
+            .catch(error => aiOutput.textContent = `Error: ${error.message}`);
+        }
+
+
+    </script>
+</body>
+</html>
