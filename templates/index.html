@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VirusTotal Scanner</title>
+    <title>Phish Shield Scanner</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: "Arial", sans-serif;
-            background-color: #f0f0f0; /* Light background */
-            color: #333; /* Dark text for contrast */
+            background-color: #f0f0f0; 
+            color: #333; 
             margin: 0;
             display: flex;
             overflow-y: hidden;
@@ -17,7 +17,7 @@
 
         .sidebar {
             width: 250px;
-            background-color: #ffffff; /* Light sidebar */
+            background-color: #ffffff;
             min-height: 100vh;
             padding: 30px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
@@ -31,17 +31,17 @@
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
-            background: #007bff; /* Primary button color */
+            background: #007bff;
             border: none;
-            color: white; /* White text */
+            color: white;
             cursor: pointer;
             text-align: left;
             font-size: 16px;
-            border-radius: 5px; /* Rounded corners */
+            border-radius: 5px;
         }
 
         .sidebar button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: #0056b3; 
         }
 
         .main {
@@ -62,9 +62,9 @@
         input {
             width: 80%;
             padding: 10px;
-            background-color: #ffffff; /* Light input background */
-            color: #333; /* Dark text */
-            border: 2px solid #007bff; /* Primary border color */
+            background-color: #ffffff; 
+            color: #333;
+            border: 2px solid #007bff; 
             font-size: 16px;
             border-radius: 5px;
             text-align: center;
@@ -72,17 +72,17 @@
 
         button {
             margin-top: 10px;
-            background-color: #007bff; /* Primary button color */
-            color: white; /* White text */
+            background-color: #007bff; 
+            color: white; 
             border: none;
             padding: 10px;
             cursor: pointer;
-            border-radius: 5px; /* Rounded corners */
+            border-radius: 5px; 
             font-size: 16px;
         }
 
         button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: #0056b3; 
         }
 
         pre {
@@ -136,7 +136,7 @@
 
     <div class="main">
         <div id="url-scan-panel" class="panel active">
-            <h2>[ VirusTotal URL Scan ]</h2>
+            <h2>[ Phish Shield ]</h2>
             <input id="url-input" placeholder="Enter URL..."></input>
             <button onclick="scanURL()">Scan</button>
             <pre id="scan-output">Results will appear here...</pre>
