@@ -7,9 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            font-family: "Courier New", monospace;
-            background-color: #0d1117;
-            color: #00ff00;
+            font-family: "Arial", sans-serif;
+            background-color: #f0f0f0; /* Light background */
+            color: #333; /* Dark text for contrast */
             margin: 0;
             display: flex;
             overflow-y: hidden;
@@ -17,11 +17,13 @@
 
         .sidebar {
             width: 250px;
-            background-color: #161b22;
+            background-color: #ffffff; /* Light sidebar */
             min-height: 100vh;
             padding: 30px;
-            box-shadow: 4px 4px 10px rgba(0, 255, 0, 0.6);
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
             margin-top: 30px; 
+            border: solid #007bff;
+            border-width: 1px;
         }
 
         .sidebar button {
@@ -29,17 +31,17 @@
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
-            background: none;
-            border: 1px solid #00ff00;
-            color: #00ff00;
+            background: #007bff; /* Primary button color */
+            border: none;
+            color: white; /* White text */
             cursor: pointer;
             text-align: left;
             font-size: 16px;
+            border-radius: 5px; /* Rounded corners */
         }
 
         .sidebar button:hover {
-            background-color: #00ff00;
-            color: #0d1117;
+            background-color: #0056b3; /* Darker shade on hover */
         }
 
         .main {
@@ -60,9 +62,9 @@
         input {
             width: 80%;
             padding: 10px;
-            background-color: black;
-            color: #00ff00;
-            border: 2px solid #00ff00;
+            background-color: #ffffff; /* Light input background */
+            color: #333; /* Dark text */
+            border: 2px solid #007bff; /* Primary border color */
             font-size: 16px;
             border-radius: 5px;
             text-align: center;
@@ -70,24 +72,24 @@
 
         button {
             margin-top: 10px;
-            background-color: #00ff00;
-            color: black;
+            background-color: #007bff; /* Primary button color */
+            color: white; /* White text */
             border: none;
             padding: 10px;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 5px; /* Rounded corners */
             font-size: 16px;
         }
 
         button:hover {
-            background-color: #0e6b0e;
+            background-color: #0056b3; /* Darker shade on hover */
         }
 
         pre {
             white-space: pre-wrap;
             font-family: monospace;
             padding: 15px;
-            color: #33ff33;
+            color: #333; /* Dark text */
             height: 50vh; 
             max-width: 100%;
             overflow-y: visible;
@@ -95,21 +97,23 @@
             font-size: 12px;
             line-height: 1.4;
             word-break: break-word;
-            border: 1px solid #00ff00;
-            background-color: #121212;
+            border: 1px solid #007bff; /* Primary border color */
+            background-color: #ffffff; /* Light background */
             border-radius: 8px;
         }
 
         .chart-container {
+            border: solid #007bff;
+            border-width: 1px;
             position: absolute;
             bottom: 100px;
             left: 30%;
             width: 500px;
             height: 250px;
-            background-color: #161b22;
+            background-color: #ffffff; /* Light background */
             padding: 15px;
             border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 255, 0, 0.6);
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -119,7 +123,7 @@
         .chart-container p {
            margin-top: 10px;
            font-size: 14px;
-           color: #00ff00;
+           color: #333; /* Dark text */
            text-align: center;
         }       
     </style>
